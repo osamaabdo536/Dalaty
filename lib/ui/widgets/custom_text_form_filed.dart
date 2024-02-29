@@ -39,12 +39,12 @@ class CustomTextFormFiled extends StatelessWidget {
           fillColor: Theme.of(context).primaryColor,
           hintText: hintText,
           hintStyle: TextStyle(
-            color: MyTheme.white,
+            color: MyTheme.whiteColor,
           ),
           suffixIcon: icon,
         ),
         style: TextStyle(
-          color: MyTheme.white,
+          color: MyTheme.whiteColor,
         ),
         keyboardType: keyBordType,
         obscureText: isVisible,

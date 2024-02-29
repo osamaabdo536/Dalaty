@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../components/custom_text_form_filed.dart';
 import '../../utils/app_theme.dart';
+import '../../widgets/custom_text_form_filed.dart';
 
 class NewPassWordScreen extends StatefulWidget {
   static const String routeName = 'new password page';
@@ -24,7 +24,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.white,
+      backgroundColor: MyTheme.whiteColor,
       appBar: AppBar(
         title: Text(
           'New password',
@@ -74,7 +74,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                         },
                         icon: Icon(
                           isPassword ? Icons.visibility_off : Icons.visibility,
-                          color: MyTheme.white,
+                          color: MyTheme.whiteColor,
                         ),
                       ),
                       myValidator: (text){
@@ -101,7 +101,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                         },
                         icon: Icon(
                           isRePassword ? Icons.visibility_off : Icons.visibility,
-                          color: MyTheme.white,
+                          color: MyTheme.whiteColor,
                         ),
                       ),
                       myValidator: (text) {
@@ -130,7 +130,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                           "Confirm",
                           style:
                           Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: MyTheme.white,
+                            color: MyTheme.whiteColor,
                           ),
                         ),
                       ),

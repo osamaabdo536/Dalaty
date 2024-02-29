@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/auth/forget_password/forget_password_screen.dart';
 import 'package:graduationproject/ui/auth/register/register_screen.dart';
-import 'package:graduationproject/ui/components/custom_text_form_filed.dart';
+
 import '../../utils/app_theme.dart';
+import '../../widgets/custom_text_form_filed.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = 'Login';
@@ -20,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.white,
+      backgroundColor: MyTheme.whiteColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -86,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         icon: Icon(
                           isPassword ? Icons.visibility_off : Icons.visibility,
-                          color: MyTheme.white,
+                          color: MyTheme.whiteColor,
                         ),
                       ),
                       myValidator: (text) {
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           "Log in",
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: MyTheme.white,
+                                    color: MyTheme.whiteColor,
                                   ),
                         ),
                       ),

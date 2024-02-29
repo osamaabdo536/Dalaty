@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/auth/new_password/new_password_screen.dart';
-import 'package:graduationproject/ui/components/square_text_form_filed.dart';
+
 import '../../utils/app_theme.dart';
+import '../../widgets/square_text_form_filed.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   static const String routeName = 'reset page';
-
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
@@ -14,7 +14,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.white,
+      backgroundColor: MyTheme.whiteColor,
       appBar: AppBar(
         title: Text(
           'Reset password',
@@ -79,7 +79,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   "Verify",
                   style:
                   Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: MyTheme.white,
+                    color: MyTheme.whiteColor,
                   ),
                 ),
               ),

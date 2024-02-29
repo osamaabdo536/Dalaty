@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/auth/login/login_screen.dart';
 import 'package:graduationproject/ui/utils/app_theme.dart';
@@ -23,7 +24,7 @@ class SplashScreen extends StatelessWidget {
           ),
           Text('اللَّهُمَّ رُدَّ عَلَيَّ ضَالَّتِي' ,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: MyTheme.white,
+            color: MyTheme.whiteColor,
           ),
           ),
         ],

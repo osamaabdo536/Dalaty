@@ -31,13 +31,13 @@ class SquareTextFormFiled extends StatelessWidget {
           ),
           hintText: "0",
           hintStyle: TextStyle(
-            color: MyTheme.white,
+            color: MyTheme.whiteColor,
           ),
           filled: true,
           fillColor: Theme.of(context).primaryColor,
         ),
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          color: MyTheme.white
+          color: MyTheme.whiteColor
         ),
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,

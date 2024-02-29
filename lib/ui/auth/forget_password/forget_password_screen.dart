@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/auth/reset_password/reset_password_screen.dart';
 
-import '../../components/custom_text_form_filed.dart';
 import '../../utils/app_theme.dart';
+import '../../widgets/custom_text_form_filed.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   static const String routeName = 'forget page';
@@ -72,7 +72,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                         "Check email",
                         style:
                         Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: MyTheme.white,
+                          color: MyTheme.whiteColor,
                         ),
                       ),
                     ),

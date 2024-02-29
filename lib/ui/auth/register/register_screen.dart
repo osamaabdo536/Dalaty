@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/auth/login/login_screen.dart';
 import 'package:graduationproject/ui/utils/app_theme.dart';
 
-import '../../components/custom_text_form_filed.dart';
+import '../../widgets/custom_text_form_filed.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.white,
+      backgroundColor: MyTheme.whiteColor,
       appBar: AppBar(
         title: Text(
           'Create Account',
@@ -104,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         icon: Icon(
                           isPassword ? Icons.visibility_off : Icons.visibility,
-                          color: MyTheme.white,
+                          color: MyTheme.whiteColor,
                         ),
                       ),
                       myValidator: (text) {
@@ -132,7 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         icon: Icon(
                           isRePassword ? Icons.visibility_off : Icons.visibility,
-                          color: MyTheme.white,
+                          color: MyTheme.whiteColor,
                         ),
                       ),
                       myValidator: (text) {
@@ -164,7 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           "Sing Up",
                           style:
                               Theme.of(context).textTheme.titleMedium!.copyWith(
-                                    color: MyTheme.white,
+                                    color: MyTheme.whiteColor,
                                   ),
                         ),
                       ),
