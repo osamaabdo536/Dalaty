@@ -6,6 +6,7 @@ import 'package:graduationproject/ui/auth/new_password/new_password_screen.dart'
 import 'package:graduationproject/ui/auth/register/register_screen.dart';
 import 'package:graduationproject/ui/auth/reset_password/reset_password_screen.dart';
 import 'package:graduationproject/ui/home/home_screen.dart';
+import 'package:graduationproject/ui/profile/profile_tab.dart';
 import 'package:graduationproject/ui/splash/splash_screen.dart';
 
 import 'ui/utils/app_theme.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            initialRoute: HomeScreen.routeName,
+            initialRoute: ProfileTab.routeName,
             routes: {
               SplashScreen.routeName: (context) => SplashScreen(),
               HomeScreen.routeName: (context) => HomeScreen(),
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
                   ForgetPasswordScreen(),
               ResetPasswordScreen.routeName: (context) => ResetPasswordScreen(),
               NewPassWordScreen.routeName: (context) => NewPassWordScreen(),
+              ProfileTab.routeName : (context) =>ProfileTab()
             },
             theme: MyTheme.appTheme,
           );
