@@ -15,19 +15,15 @@ class SplashScreen extends StatelessWidget {
     });
     return Scaffold(
       backgroundColor: MyTheme.primaryColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset('assets/images/splash.png',
-            fit: BoxFit.cover,
-            width:  double.infinity,
-          ),
-          Text('اللَّهُمَّ رُدَّ عَلَيَّ ضَالَّتِي' ,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: MyTheme.whiteColor,
-          ),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/splash_screen.png',
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
       ),
     );
   }
