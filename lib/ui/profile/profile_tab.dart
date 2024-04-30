@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/ui/auth/new_password/new_password_screen.dart';
-import 'package:graduationproject/ui/utils/app_theme.dart';
-import 'package:graduationproject/ui/widgets/CustomProfileContainer.dart';
-import 'package:graduationproject/ui/widgets/CustomProfileEditWidget.dart';
+
+import '../auth/new_password/new_password_screen.dart';
+import '../utils/app_theme.dart';
+import '../widgets/CustomProfileContainer.dart';
+import '../widgets/CustomProfileEditWidget.dart';
+
 
 class ProfileTab extends StatefulWidget {
   static const String routeName = 'ProfileTab';

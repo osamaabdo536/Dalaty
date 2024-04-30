@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduationproject/home_screen.dart';
 import 'package:graduationproject/ui/auth/forget_password/forget_password_screen.dart';
+import 'package:graduationproject/ui/auth/login/cubit/login_screen_states.dart';
+import 'package:graduationproject/ui/auth/login/cubit/login_screen_view_model.dart';
 import 'package:graduationproject/ui/auth/register/register_screen.dart';
 
 import '../../utils/app_theme.dart';
+import '../../utils/dialog_utils.dart';
 import '../../widgets/custom_text_form_filed.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,21 +18,31 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  var emailController = TextEditingController();
-  var passWordController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
-  bool isPassword = true;
-
+  LoginScreenViewModel viewModel = LoginScreenViewModel();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<LoginScreenViewModel, LoginScreenStates>(
+        bloc: viewModel,
+        listener: (context, state) {
+      if (state is LoginScreenLoadingState) {
+        DialogUtils.showLoading(context, state.loadingMessage!);
+      } else if (state is LoginScreenErrorState) {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(context, state.errorMessage!,
+            posActionName: 'Ok', title: 'Something went wrong !');
+        print('${state.errorMessage}');
+      } else if (state is LoginScreenSuccessState) {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(context, state.response.message!,
+            posActionName: 'Ok', title: 'Welcome');
+        Navigator.of(context).pushNamed(HomeScreen.routeName);
+      }
+    },
+    child:  Scaffold(
       backgroundColor: MyTheme.whiteColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 30,
-            ),
             Image.asset(
               'assets/images/worried.png',
               height: 300,
@@ -38,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             Form(
-                key: formKey,
+                key: viewModel.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -54,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     CustomTextFormFiled(
                       hintText: "Enter your Email address",
-                      controller: emailController,
+                      controller: viewModel.emailController,
                       myValidator: (text) {
                         if (text == null || text.trim().isEmpty) {
                           return "Please enter your Email Address";
@@ -77,16 +92,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     CustomTextFormFiled(
                       hintText: "Enter your Password",
-                      controller: passWordController,
-                      isVisible: isPassword,
+                      controller: viewModel.passWordController,
+                      isVisible: viewModel.isPassword,
                       keyBordType: TextInputType.number,
                       icon: IconButton(
                         onPressed: () {
-                          isPassword = !isPassword;
+                          viewModel.isPassword = !viewModel.isPassword;
                           setState(() {});
                         },
                         icon: Icon(
-                          isPassword ? Icons.visibility_off : Icons.visibility,
+                          viewModel.isPassword ? Icons.visibility_off : Icons.visibility,
                           color: MyTheme.whiteColor,
                         ),
                       ),
@@ -101,9 +116,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           return "Please enter valid password";
                         }
                       },
-                    ),
-                    SizedBox(
-                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -131,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          Login();
+                          viewModel.login();
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: MyTheme.primaryColor,
@@ -180,12 +192,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  void Login() {
-    if (formKey.currentState?.validate() == true) {
-      //login
-    }
+    ));
   }
 }

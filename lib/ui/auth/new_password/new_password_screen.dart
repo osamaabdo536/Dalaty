@@ -29,9 +29,9 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
         title: Text(
           'New password',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
-          ),
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+              ),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -45,14 +45,13 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 20,
-            ),
-            Text('Please Enter The New Password For Your account',
+            Text(
+              'Please Enter The New Password For Your account',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
-            Image.asset('assets/images/new.png',
+            Image.asset(
+              'assets/images/new.png',
               height: 250,
               width: double.infinity,
             ),
@@ -61,7 +60,9 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height*0.03,),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
+                    ),
                     CustomTextFormFiled(
                       hintText: "Enter your Password",
                       controller: passWordController,
@@ -77,12 +78,12 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                           color: MyTheme.whiteColor,
                         ),
                       ),
-                      myValidator: (text){
-                        if(text == null || text.trim().isEmpty){
+                      myValidator: (text) {
+                        if (text == null || text.trim().isEmpty) {
                           return "Please enter your Password";
                         }
                         bool isValidPassword = RegExp(
-                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                             .hasMatch(text);
                         if (!isValidPassword) {
                           return "Please enter valid password";
@@ -100,7 +101,9 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                           setState(() {});
                         },
                         icon: Icon(
-                          isRePassword ? Icons.visibility_off : Icons.visibility,
+                          isRePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: MyTheme.whiteColor,
                         ),
                       ),
@@ -129,15 +132,14 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                         child: Text(
                           "Confirm",
                           style:
-                          Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: MyTheme.whiteColor,
-                          ),
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: MyTheme.whiteColor,
+                                  ),
                         ),
                       ),
                     ),
                   ],
-                )
-            ),
+                )),
           ],
         ),
       ),
@@ -145,9 +147,8 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
   }
 
   void ChangePassword() {
-    if (formKey.currentState?.validate() == true)
-      {
-        //change
-      }
+    if (formKey.currentState?.validate() == true) {
+      //change
+    }
   }
 }

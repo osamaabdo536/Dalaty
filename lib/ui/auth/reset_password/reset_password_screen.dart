@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/auth/new_password/new_password_screen.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../utils/app_theme.dart';
-import '../../widgets/square_text_form_filed.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   static const String routeName = 'reset page';
@@ -13,11 +13,25 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
+    String code ;
+    final defaultPinTheme = PinTheme(
+      width: 56,
+      height: 60,
+      textStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: MyTheme.whiteColor
+      ),
+      decoration: BoxDecoration(
+        color: MyTheme.primaryColor,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.transparent),
+      ),
+    );
+
     return Scaffold(
       backgroundColor: MyTheme.whiteColor,
       appBar: AppBar(
         title: Text(
-          'Reset password',
+          'Verification',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: 30,
@@ -36,31 +50,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 30,),
             Image.asset('assets/images/reset.png',
               height: 250,
               width: double.infinity,
             ),
-            Text('Send the email and a verification code will be sent to your email',
+            Text('Enter the code that has been sent to your email',
               style: Theme.of(context).textTheme.titleSmall,
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: 15,
+              height: MediaQuery.of(context).size.height*0.02,
             ),
-            Form(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SquareTextFormFiled(),
-                  SquareTextFormFiled(),
-                  SquareTextFormFiled(),
-                  SquareTextFormFiled(),
-                ],
+            Pinput(
+              length: 5,
+              defaultPinTheme: defaultPinTheme,
+              focusedPinTheme: defaultPinTheme.copyWith(
+                decoration: defaultPinTheme.decoration!.copyWith(
+                  border: Border.all(color: MyTheme.primaryColor)
+                )
               ),
+              onChanged: (value){
+                code = value ;
+                print(code);
+              },
             ),
             SizedBox(
-              height: 18,
+              height: MediaQuery.of(context).size.height*0.02,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
