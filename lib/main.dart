@@ -6,8 +6,12 @@ import 'package:graduationproject/ui/auth/new_password/new_password_screen.dart'
 import 'package:graduationproject/ui/auth/register/register_screen.dart';
 import 'package:graduationproject/ui/auth/reset_password/reset_password_screen.dart';
 import 'package:graduationproject/ui/home/home_screen.dart';
+import 'package:graduationproject/ui/profile/profile_tab.dart';
 import 'package:graduationproject/ui/search/search_by_AI.dart';
 import 'package:graduationproject/ui/search/search_by_filter.dart';
+import 'package:graduationproject/ui/search/search_by_AI.dart';
+import 'package:graduationproject/ui/search/search_by_filter.dart';
+import 'package:graduationproject/ui/profile/profile_tab.dart';
 import 'package:graduationproject/ui/splash/splash_screen.dart';
 
 import 'ui/utils/app_theme.dart';
@@ -38,6 +42,7 @@ class MyApp extends StatelessWidget {
               NewPassWordScreen.routeName: (context) => NewPassWordScreen(),
               SearchByFilter.routeName: (context) => SearchByFilter(),
               SearchByAI.routeName: (context) => SearchByAI(),
+              ProfileTab.routeName : (context) =>ProfileTab()
             },
             theme: MyTheme.appTheme,
           );
