@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Image.asset(
               'assets/images/worried.png',
-              height: 300,
+              height: MediaQuery.of(context).size.height*0.4,
               width: double.infinity,
             ),
             Text(
@@ -57,9 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
@@ -94,7 +91,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Enter your Password",
                       controller: viewModel.passWordController,
                       isVisible: viewModel.isPassword,
-                      keyBordType: TextInputType.number,
                       icon: IconButton(
                         onPressed: () {
                           viewModel.isPassword = !viewModel.isPassword;
@@ -113,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                             .hasMatch(text);
                         if (!isValidPassword) {
-                          return "Please enter valid password";
+                          return "Wrong Password !";
                         }
                       },
                     ),
@@ -135,9 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 15,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -169,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
-                          width: 10,
+                          width: MediaQuery.of(context).size.width*0.01
                         ),
                         InkWell(
                           onTap: () {

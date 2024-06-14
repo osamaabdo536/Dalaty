@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduationproject/home_screen.dart';
+import 'package:graduationproject/ui/auth/new_password/Cubit/new_password_screen_states.dart';
+import 'package:graduationproject/ui/auth/new_password/Cubit/new_password_screen_view_model.dart';
 
 import '../../utils/app_theme.dart';
+import '../../utils/dialog_utils.dart';
 import '../../widgets/custom_text_form_filed.dart';
 
 class NewPassWordScreen extends StatefulWidget {
@@ -11,19 +16,28 @@ class NewPassWordScreen extends StatefulWidget {
 }
 
 class _NewPassWordScreenState extends State<NewPassWordScreen> {
-  var passWordController = TextEditingController();
-
-  var confirmationPasswordController = TextEditingController();
-
-  var formKey = GlobalKey<FormState>();
-
-  bool isPassword = true;
-
-  bool isRePassword = true;
-
+ NewPassWordViewModel viewModel = NewPassWordViewModel();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocListener<NewPassWordViewModel,
+        NewPasswordScreenStates>(
+        bloc: viewModel,
+        listener: (context, state) {
+      if (state is NewPasswordScreenLoadingState) {
+        DialogUtils.showLoading(context, state.loadingMessage!);
+      } else if (state is NewPasswordScreenErrorState) {
+        DialogUtils.hideLoading(context);
+        DialogUtils.showMessage(context, state.errorMessage!,
+            posActionName: 'Ok', title: 'Something went wrong !');
+        print('${state.errorMessage}');
+      } else if (state is NewPasswordScreenSuccessState) {
+        DialogUtils.hideLoading(context);
+        Navigator.of(context).pushNamed(HomeScreen.routeName);
+        DialogUtils.showMessage(context, state.response.message!,
+            posActionName: 'Ok', title: 'Success');
+      }
+    },
+    child: Scaffold(
       backgroundColor: MyTheme.whiteColor,
       appBar: AppBar(
         title: Text(
@@ -46,7 +60,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
         child: Column(
           children: [
             Text(
-              'Please Enter The New Password For Your account',
+              'Please enter the new password for your account',
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
@@ -56,25 +70,21 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
               width: double.infinity,
             ),
             Form(
-                key: formKey,
+                key: viewModel.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
                     CustomTextFormFiled(
                       hintText: "Enter your Password",
-                      controller: passWordController,
-                      isVisible: isPassword,
-                      keyBordType: TextInputType.number,
+                      controller: viewModel.passWordController,
+                      isVisible: viewModel.isPassword,
                       icon: IconButton(
                         onPressed: () {
-                          isPassword = !isPassword;
+                          viewModel.isPassword = !viewModel.isPassword;
                           setState(() {});
                         },
                         icon: Icon(
-                          isPassword ? Icons.visibility_off : Icons.visibility,
+                          viewModel.isPassword ? Icons.visibility_off : Icons.visibility,
                           color: MyTheme.whiteColor,
                         ),
                       ),
@@ -86,22 +96,27 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                             .hasMatch(text);
                         if (!isValidPassword) {
-                          return "Please enter valid password";
+                          return "Your password should contain \n"
+                              "At least one uppercase letter (A-Z) \n"
+                              "At least one lowercase letter (a-z) \n"
+                              "At least one digit (0-9) \n"
+                              "At least one special character from the set {!@#&~} \n"
+                              "Minimum length of 8 characters";
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormFiled(
                       hintText: "Re-Enter your password",
-                      controller: confirmationPasswordController,
-                      isVisible: isRePassword,
-                      keyBordType: TextInputType.number,
+                      controller: viewModel.confirmationPasswordController,
+                      isVisible: viewModel.isRePassword,
                       icon: IconButton(
                         onPressed: () {
-                          isRePassword = !isRePassword;
+                          viewModel.isRePassword = !viewModel.isRePassword;
                           setState(() {});
                         },
                         icon: Icon(
-                          isRePassword
+                          viewModel.isRePassword
                               ? Icons.visibility_off
                               : Icons.visibility,
                           color: MyTheme.whiteColor,
@@ -111,7 +126,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                         if (text == null || text.trim().isEmpty) {
                           return "Please enter your Password";
                         }
-                        if (text != passWordController.text) {
+                        if (text != viewModel.passWordController.text) {
                           return "Your password doesn't match";
                         }
                         return null;
@@ -121,7 +136,7 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          ChangePassword();
+                          viewModel.changePassword(context);
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: MyTheme.primaryColor,
@@ -143,12 +158,12 @@ class _NewPassWordScreenState extends State<NewPassWordScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
-
-  void ChangePassword() {
-    if (formKey.currentState?.validate() == true) {
-      //change
-    }
-  }
+}
+/// Data class
+class NewPasswordScreenArgs {
+  TextEditingController codeController;
+  TextEditingController emailController;
+  NewPasswordScreenArgs({required this.codeController,required this.emailController});
 }

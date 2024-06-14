@@ -43,13 +43,14 @@ class CustomTextFormFiled extends StatelessWidget {
           ),
           suffixIcon: icon,
         ),
-        style: TextStyle(
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: MyTheme.whiteColor,
         ),
         keyboardType: keyBordType,
         obscureText: isVisible,
         controller: controller,
         validator: myValidator,
+        autofocus: false,
         // controller: ,
       ),
     );

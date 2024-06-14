@@ -5,8 +5,10 @@
 import FlutterMacOS
 import Foundation
 
-import smart_auth
+import device_info_plus
+import file_selector_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  SmartAuthPlugin.register(with: registry.registrar(forPlugin: "SmartAuthPlugin"))
+  DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))
+  FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
 }

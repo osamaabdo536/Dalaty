@@ -1,10 +1,20 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/widgets/search_ai_text.dart';
 
 import '../utils/app_theme.dart';
 
-class SearchByAI extends StatelessWidget {
+class SearchByAI extends StatefulWidget {
   static const String routeName = 'search by AI';
+
+  @override
+  State<SearchByAI> createState() => _SearchByAIState();
+}
+
+class _SearchByAIState extends State<SearchByAI> {
+  File? imagePicker;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +52,14 @@ class SearchByAI extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height:MediaQuery.of(context).size.width*0.25,
+                        height: MediaQuery.of(context).size.width * 0.25,
                       ),
                       Text(
                         'Instructions for high quality',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       SizedBox(
-                        height:MediaQuery.of(context).size.width*0.055,
+                        height: MediaQuery.of(context).size.width * 0.055,
                       ),
                       SearchAIText(
                           title: 'Good lighting',
@@ -69,6 +79,7 @@ class SearchByAI extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   child: ElevatedButton(
                     onPressed: () {
+                      dialog(context);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: MyTheme.primaryColor,
@@ -82,9 +93,12 @@ class SearchByAI extends StatelessWidget {
                         Text(
                           'Take a photo',
                           style:
-                          Theme.of(context).textTheme.titleMedium!.copyWith(
-                            color: MyTheme.whiteColor,
-                          ),
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
+                                    color: MyTheme.whiteColor,
+                                  ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.01,
                         ),
                         Image.asset('assets/images/camera.png'),
                       ],
@@ -95,12 +109,73 @@ class SearchByAI extends StatelessWidget {
             ],
           ),
           Positioned(
-            right: MediaQuery.of(context).size.width*0.22,
-            child: Image.asset('assets/images/person.png',
+            right: MediaQuery.of(context).size.width * 0.22,
+            child: Image.asset(
+              'assets/images/person.png',
               scale: 1.1,
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  dialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: MyTheme.primaryColor,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.camera_alt_outlined,
+                    size: 40,
+                    color: MyTheme.whiteColor,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.001,
+                ),
+                Text(
+                  'Camera',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: MyTheme.whiteColor,
+                      ),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.image_outlined,
+                    size: 40,
+                    color: MyTheme.whiteColor,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.001,
+                ),
+                Text(
+                  'Camera',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: MyTheme.whiteColor,
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

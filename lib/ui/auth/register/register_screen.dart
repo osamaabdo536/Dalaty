@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
+                        height: MediaQuery.of(context).size.height * 0.001,
                       ),
                       CustomTextFormFiled(
                         hintText: "Full Name",
@@ -110,7 +110,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Enter your password",
                         controller: viewModel.passWordController,
                         isVisible: viewModel.isPassword,
-                        keyBordType: TextInputType.number,
                         icon: IconButton(
                           onPressed: () {
                             viewModel.isPassword = !viewModel.isPassword;
@@ -131,7 +130,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                               .hasMatch(text);
                           if (!isValidPassword) {
-                            return "Your password should have ";
+                            return "Your password should contain \n"
+                                "At least one uppercase letter (A-Z) \n"
+                                "At least one lowercase letter (a-z) \n"
+                                "At least one digit (0-9) \n"
+                                "At least one special character from the set {!@#&~} \n"
+                                "Minimum length of 8 characters";
                           }
                           return null;
                         },
@@ -140,7 +144,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         hintText: "Re-Enter your password",
                         controller: viewModel.confirmationPasswordController,
                         isVisible: viewModel.isRePassword,
-                        keyBordType: TextInputType.number,
                         icon: IconButton(
                           onPressed: () {
                             viewModel.isRePassword = !viewModel.isRePassword;
@@ -164,7 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(5),
                         child: Container(
                           padding: EdgeInsets.only(left: 8, right: 8),
                           decoration: BoxDecoration(
@@ -214,9 +217,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: MyTheme.primaryColor,
-                              padding: EdgeInsets.all(15),
+                              padding: EdgeInsets.all(14),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(10),
                               )),
                           child: Text(
                             "Sing Up",
@@ -235,18 +238,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
-                        height: 20,
-                      ),
+                          height: MediaQuery.of(context).size.height * 0.01),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Already have account ?',
+                            'Already have account?',
                             style: Theme.of(context).textTheme.titleMedium,
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(
-                            width: 10,
+                            width: MediaQuery.of(context).size.width * 0.01,
                           ),
                           InkWell(
                             onTap: () {

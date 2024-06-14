@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:graduationproject/api/api_constants.dart';
+import 'package:graduationproject/model/request/ChangePasswordRequest.dart';
+import 'package:graduationproject/model/request/CheckOTPRequest.dart';
 import 'package:graduationproject/model/request/ForgetPasswordRequest.dart';
 import 'package:graduationproject/model/request/LoginRequest.dart';
 import 'package:graduationproject/model/request/RegisterRequest.dart';
+import 'package:graduationproject/model/response/ChangePasswordResponse.dart';
+import 'package:graduationproject/model/response/CheckOTPResponse.dart';
 import 'package:graduationproject/model/response/LoginResponse.dart';
 import 'package:graduationproject/model/response/RegisterResponse.dart';
 import 'package:graduationproject/model/response/forgetPasswordResponse.dart';
@@ -15,8 +19,13 @@ class ApiManager {
   /*
   https://dallatey.onrender.com/user/signup
    */
-  static Future<RegisterResponse> register(String name, String email, String password,
-      String rePassword, String phone, String governorate) async {
+  static Future<RegisterResponse> register(
+      String name,
+      String email,
+      String password,
+      String rePassword,
+      String phone,
+      String governorate) async {
     var registerBody = RegisterRequest(
       fullName: name,
       email: email,
@@ -25,7 +34,7 @@ class ApiManager {
       mobileNumber: phone,
       governorate: governorate,
     );
-    Uri url = Uri.https(ApiConstants.baseUrl,ApiConstants.registerApi);
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.registerApi);
     var response = await http.post(
       url,
       headers: {
@@ -41,7 +50,7 @@ class ApiManager {
       email: email,
       password: password,
     );
-    Uri url = Uri.https(ApiConstants.baseUrl,ApiConstants.loginApi);
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.loginApi);
     var response = await http.post(
       url,
       headers: {
@@ -56,7 +65,7 @@ class ApiManager {
     var forgetPasswordBody = ForgetPasswordRequest(
       identification: email,
     );
-    Uri url = Uri.https(ApiConstants.baseUrl,ApiConstants.otpApi);
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.otpApi);
     var response = await http.post(
       url,
       headers: {
@@ -67,6 +76,40 @@ class ApiManager {
     return ForgetPasswordResponse.fromJson(jsonDecode(response.body));
   }
 
+  static Future<CheckOtpResponse> checkOTP(String email, String code) async {
+    var checkOTPBody = CheckOtpRequest(
+      identification: email,
+      code: code,
+    );
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.checkOTPApi);
+    var response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(checkOTPBody.toJson()),
+    );
+    return CheckOtpResponse.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<ChangePasswordResponse> changePassword(String email,String code,
+       String newPassWord, String confirmNewPassword) async {
+    var checkOTPBody = ChangePasswordRequest(
+        identification: email,
+        code: code,
+        newPassword: newPassWord,
+        confirmNewPassword: confirmNewPassword);
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.changePasswordApi);
+    var response = await http.patch(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(checkOTPBody.toJson()),
+    );
+    return ChangePasswordResponse.fromJson(jsonDecode(response.body));
+  }
+
   static Future<Missing> getAllMissing() async {
     Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.allMissingApi);
     try {
@@ -74,7 +117,7 @@ class ApiManager {
         url,
         headers: {
           'token':
-          'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzBmZGRiOTY4ODc1ZTgzOWQ2YzZkMSIsImVtYWlsIjoiemlhZGVzc2FtMTExQGdtYWlsLmNvbSIsImlhdCI6MTcxNDQ4Njc2Nn0.umyk8Nz8Rx30OAxkmMUZtUacBIyt7Nut5wwDiMjgh54',
+              'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzBmZGRiOTY4ODc1ZTgzOWQ2YzZkMSIsImVtYWlsIjoiemlhZGVzc2FtMTExQGdtYWlsLmNvbSIsImlhdCI6MTcxNDQ4Njc2Nn0.umyk8Nz8Rx30OAxkmMUZtUacBIyt7Nut5wwDiMjgh54',
         },
       );
 
@@ -85,6 +128,4 @@ class ApiManager {
       throw e;
     }
   }
-
-
 }
