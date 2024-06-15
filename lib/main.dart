@@ -6,15 +6,23 @@ import 'package:graduationproject/ui/auth/login/login_screen.dart';
 import 'package:graduationproject/ui/auth/new_password/new_password_screen.dart';
 import 'package:graduationproject/ui/auth/register/register_screen.dart';
 import 'package:graduationproject/ui/auth/reset_password/reset_password_screen.dart';
+import 'package:graduationproject/ui/home/home_tab.dart';
+import 'package:graduationproject/ui/inbox/CreateCaseScreen.dart';
+import 'package:graduationproject/ui/inbox/inbox_tab.dart';
 import 'package:graduationproject/ui/profile/profile_tab.dart';
 import 'package:graduationproject/ui/search/search_by_AI.dart';
 import 'package:graduationproject/ui/search/search_by_filter.dart';
 import 'package:graduationproject/ui/splash/splash_screen.dart';
+import 'package:provider/provider.dart';
 
+import 'Provider/TokenProvider.dart';
 import 'ui/utils/app_theme.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => TokenProvider()),
+  ],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +35,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            initialRoute: SearchByAI.routeName,
+            initialRoute: LoginScreen.routeName,
             routes: {
               SplashScreen.routeName: (context) => SplashScreen(),
               HomeScreen.routeName: (context) => HomeScreen(),
@@ -39,7 +47,10 @@ class MyApp extends StatelessWidget {
               NewPassWordScreen.routeName: (context) => NewPassWordScreen(),
               SearchByFilter.routeName: (context) => SearchByFilter(),
               SearchByAI.routeName: (context) => SearchByAI(),
-              ProfileTab.routeName : (context) =>ProfileTab()
+              ProfileTab.routeName : (context) =>ProfileTab(),
+              InboxTab.routeName : (context) =>InboxTab(),
+              HomeTab.routeName : (context) =>HomeTab(),
+              CreateCaseScreen.routeName : (context) =>CreateCaseScreen()
             },
             theme: MyTheme.appTheme,
           );

@@ -5,7 +5,9 @@ import 'package:graduationproject/ui/auth/forget_password/forget_password_screen
 import 'package:graduationproject/ui/auth/login/cubit/login_screen_states.dart';
 import 'package:graduationproject/ui/auth/login/cubit/login_screen_view_model.dart';
 import 'package:graduationproject/ui/auth/register/register_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../../../Provider/TokenProvider.dart';
 import '../../utils/app_theme.dart';
 import '../../utils/dialog_utils.dart';
 import '../../widgets/custom_text_form_filed.dart';
@@ -32,6 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             posActionName: 'Ok', title: 'Something went wrong !');
         print('${state.errorMessage}');
       } else if (state is LoginScreenSuccessState) {
+        Provider.of<TokenProvider>(context, listen: false).setToken(state.response.token);
         DialogUtils.hideLoading(context);
         DialogUtils.showMessage(context, state.response.message!,
             posActionName: 'Ok', title: 'Welcome');

@@ -6,4 +6,6 @@ class ApiConstants{
   static const String allMissingApi ='/missingPerson/';
   static const String checkOTPApi ='/user/checkOTP';
   static const String changePasswordApi ='/user/resetPassword';
+  static const String userApi = "user/";
+  static const String userPostsApi = "/user/posts";
 }

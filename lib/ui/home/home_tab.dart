@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduationproject/ui/widgets/HomeTabItem.dart';
 
+import 'cubit/HomeStates.dart';
 import 'cubit/HomeViewModel.dart';
-import 'cubit/Hometates.dart';
 
 class HomeTab extends StatefulWidget {
   static const String routeName = 'HomeTab';
@@ -32,8 +32,9 @@ class _HomeTabState extends State<HomeTab> {
                 color: Theme.of(context).primaryColor,
               ),
             );
-          } else if (state is HomeErrorState) {
-            print(state.errorMessage);
+          }
+          else if (state is HomeErrorState) {
+
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -53,23 +54,32 @@ class _HomeTabState extends State<HomeTab> {
                 ],
               ),
             );
-          } else if (state is HomeSuccessState) {
-            print(state.allMissingList[1].images);
-
+          }
+          else if (state is HomeSuccessState) {
             return Scaffold(
               body: Column(
                 children: [
-
                   SizedBox(
                     height: 60,
                   ),
-                  Person(
-                    imagePath: 'assets/images/person.jpg',
-                    name:state.allMissingList[3].name!,
-                    description: 'this is a description',
-                    age:state.allMissingList[1].age!,
-                    city: 'state',
-                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        print('sdffffffffffffffe656596esfsdkfmlkfs');
+                        return Person(
+                          missingPersons: state.allMissingList[index],
+                          imagePath: state.allMissingList[14].images?[0],
+                        );
+                      },
+                      itemCount: 10,
+                    ),
+                   ),
+                  // Person(
+                  //   imagePath: state.allMissingList[10].images?[0],
+                  //   name: state.allMissingList[10].name!,
+                  //   age: state.allMissingList[10].age!,
+                  //   city: 'state',
+                  // ),
                 ],
               ),
             );

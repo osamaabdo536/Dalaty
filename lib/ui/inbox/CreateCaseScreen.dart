@@ -1,0 +1,515 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseStates.dart';
+import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseViewModel.dart';
+import 'package:graduationproject/ui/inbox/inbox_tab.dart';
+
+import '../utils/app_theme.dart';
+import '../utils/dialog_utils.dart';
+import '../widgets/custom_text_form_filed.dart';
+
+class CreateCaseScreen extends StatefulWidget {
+  static const String routeName = 'create';
+  File? pickedImage;
+  @override
+  State<CreateCaseScreen> createState() => _CreateCaseScreenState();
+}
+
+class _CreateCaseScreenState extends State<CreateCaseScreen> {
+  CreateCaseViewModel viewModel = CreateCaseViewModel();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<CreateCaseViewModel, CreateCaseStates>(
+      bloc: viewModel,
+      listener: (context, state) {
+        if (state is CreateCaseLoadingState) {
+          DialogUtils.showLoading(context, 'loading');
+        } else if (state is CreateCaseErrorState) {
+          DialogUtils.hideLoading(context);
+          DialogUtils.showMessage(context, state.errorMessage!,
+              posActionName: 'Ok', title: 'Something went wrong !');
+          print('${state.errorMessage}');
+        } else if (state is CreateCaseSuccessState) {
+          DialogUtils.hideLoading(context);
+          DialogUtils.showMessage(context, 'state.response',
+              posActionName: 'Ok', title: 'Welcome');
+          Navigator.of(context).pushNamed(InboxTab.routeName);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Create Case',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 30,
+                ),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            color: MyTheme.primaryColor,
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Form(
+                        key: viewModel.formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            CustomTextFormFiled(
+                              hintText: "Full Name",
+                              controller: viewModel.fullNameController,
+                              myValidator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return "Please enter your full name";
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomTextFormFiled(
+                              hintText: "Age",
+                              controller: viewModel.ageController,
+                              myValidator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return "Please enter age";
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomTextFormFiled(
+                              hintText: "Phone Number",
+                              controller: viewModel.mobileNumberController,
+                              myValidator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return "Please enter your phone number";
+                                }
+                                if (text.length > 11) {
+                                  return "Please enter correct phone number";
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomTextFormFiled(
+                              hintText: "Description",
+                              controller: viewModel.descriptionController,
+                              myValidator: (text) {
+                                if (text == null || text.trim().isEmpty) {
+                                  return "Please enter Description";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.08,
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      viewModel.showCalendar(context);
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: MyTheme.primaryColor),
+                                      child: Text(
+                                        '${viewModel.selectedDate?.day}/${viewModel.selectedDate?.month}/${viewModel.selectedDate?.year}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: MyTheme.primaryColor,
+                                ),
+                                child: DropdownButton(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'Select your City',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: MyTheme.whiteColor,
+                                        ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  iconSize: 42,
+                                  iconEnabledColor: MyTheme.whiteColor,
+                                  underline: SizedBox(),
+                                  dropdownColor: MyTheme.primaryColor,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: MyTheme.whiteColor),
+                                  items: viewModel.cityList
+                                      .map((e) => DropdownMenuItem(
+                                            child: Text('$e'),
+                                            value: e,
+                                          ))
+                                      .toList(),
+                                  onChanged: (val) {
+                                    viewModel.selectedCity = val;
+                                    setState(() {});
+                                  },
+                                  value: viewModel.selectedCity,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: MyTheme.primaryColor,
+                                ),
+                                child: DropdownButton(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'Select Location of Loss',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: MyTheme.whiteColor,
+                                        ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  iconSize: 42,
+                                  iconEnabledColor: MyTheme.whiteColor,
+                                  underline: SizedBox(),
+                                  dropdownColor: MyTheme.primaryColor,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: MyTheme.whiteColor),
+                                  items: viewModel.cityList
+                                      .map((e) => DropdownMenuItem(
+                                            child: Text('$e'),
+                                            value: e,
+                                          ))
+                                      .toList(),
+                                  onChanged: (val) {
+                                    viewModel.selectedlocationOfLoss = val;
+                                    setState(() {});
+                                  },
+                                  value: viewModel.selectedlocationOfLoss,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: MyTheme.primaryColor,
+                                ),
+                                child: DropdownButton(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'Select your Gender',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: MyTheme.whiteColor,
+                                        ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  iconSize: 42,
+                                  iconEnabledColor: MyTheme.whiteColor,
+                                  underline: SizedBox(),
+                                  dropdownColor: MyTheme.primaryColor,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: MyTheme.whiteColor),
+                                  items: viewModel.genderList
+                                      .map((e) => DropdownMenuItem(
+                                            child: Text('$e'),
+                                            value: e,
+                                          ))
+                                      .toList(),
+                                  onChanged: (val) {
+                                    viewModel.selectedGender = val;
+                                    setState(() {});
+                                  },
+                                  value: viewModel.selectedGender,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Container(
+                                padding: EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: MyTheme.primaryColor,
+                                ),
+                                child: DropdownButton(
+                                  icon: Icon(Icons.arrow_drop_down),
+                                  isExpanded: true,
+                                  hint: Text(
+                                    'Select your Status',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: MyTheme.whiteColor,
+                                        ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  iconSize: 42,
+                                  iconEnabledColor: MyTheme.whiteColor,
+                                  underline: SizedBox(),
+                                  dropdownColor: MyTheme.primaryColor,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: MyTheme.whiteColor),
+                                  items: viewModel.statusList
+                                      .map((e) => DropdownMenuItem(
+                                            child: Text('$e'),
+                                            value: e,
+                                          ))
+                                      .toList(),
+                                  onChanged: (val) {
+                                    viewModel.selectedStatus = val;
+                                    setState(() {});
+                                  },
+                                  value: viewModel.selectedStatus,
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    dialog(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: MyTheme.primaryColor,
+                                      padding: EdgeInsets.all(15),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Take a photo',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                              color: MyTheme.whiteColor,
+                                            ),
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.01,
+                                      ),
+                                      Image.asset('assets/images/camera.png'),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  viewModel.CreateCase();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: MyTheme.primaryColor,
+                                    padding: EdgeInsets.all(15),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    )),
+                                child: Text(
+                                  "Create",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        color: MyTheme.whiteColor,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  dialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: MyTheme.primaryColor,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () async {
+                    await viewModel.pickImageFromCamera();
+                  },
+                  icon: Icon(
+                    Icons.camera_alt_outlined,
+                    size: 40,
+                    color: MyTheme.whiteColor,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.001,
+                ),
+                Text(
+                  'Camera',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: MyTheme.whiteColor,
+                      ),
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () async {
+                    await viewModel.pickImageFromGallery();
+                  },
+                  icon: Icon(
+                    Icons.image_outlined,
+                    size: 40,
+                    color: MyTheme.whiteColor,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.001,
+                ),
+                Text(
+                  'Gallery',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: MyTheme.whiteColor,
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+// dialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       backgroundColor: MyTheme.primaryColor,
+  //       content: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //         children: [
+  //           Column(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               IconButton(
+  //                 onPressed: () async {
+  //                   widget.pickedImage = (await ImageFunction.cameraPicker()) as File?;
+  //                 },
+  //                 icon: Icon(
+  //                   Icons.camera_alt_outlined,
+  //                   size: 40,
+  //                   color: MyTheme.whiteColor,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: MediaQuery.of(context).size.height * 0.001,
+  //               ),
+  //               Text(
+  //                 'Camera',
+  //                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
+  //                       color: MyTheme.whiteColor,
+  //                     ),
+  //               ),
+  //             ],
+  //           ),
+  //           Column(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               IconButton(
+  //                 onPressed: () async {
+  //                   widget.pickedImage = (await ImageFunction.galleryPicker()) as File?;
+  //                   print(widget.pickedImage);
+  //                 },
+  //                 icon: Icon(
+  //                   Icons.image_outlined,
+  //                   size: 40,
+  //                   color: MyTheme.whiteColor,
+  //                 ),
+  //               ),
+  //               SizedBox(
+  //                 height: MediaQuery.of(context).size.height * 0.001,
+  //               ),
+  //               Text(
+  //                 'Gallery',
+  //                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
+  //                       color: MyTheme.whiteColor,
+  //                     ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+}

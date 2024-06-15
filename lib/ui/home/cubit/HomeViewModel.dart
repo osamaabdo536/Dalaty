@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../api/api_manager.dart';
-import 'Hometates.dart';
+import 'HomeStates.dart';
 
 
 class HomeViewModel extends Cubit<HomeStates> {

@@ -10,7 +10,7 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
   var passWordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   bool isPassword = true;
-  Future<void> login() async {
+  Future<String?> login() async {
     if (formKey.currentState?.validate() == true) {
       try{
         emit(LoginScreenLoadingState(loadingMessage: 'Loading...'));
@@ -20,6 +20,7 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
           );
         if(response.status != "fail"){
           emit(LoginScreenSuccessState(response: response));
+          return response.token;
         }else{
           emit(LoginScreenErrorState(errorMessage: response.message));
         }

@@ -6,7 +6,6 @@ import 'package:graduationproject/ui/auth/register/cubit/register_screen_view_mo
 import 'package:graduationproject/ui/utils/app_theme.dart';
 import 'package:graduationproject/ui/utils/dialog_utils.dart';
 
-import '../../../home_screen.dart';
 import '../../widgets/custom_text_form_filed.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -34,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(context, state.response.message!,
               posActionName: 'Ok', title: 'Welcome');
-          Navigator.of(context).pushNamed(HomeScreen.routeName);
+          Navigator.of(context).pushNamed(LoginScreen.routeName);
         }
       },
       child: Scaffold(
