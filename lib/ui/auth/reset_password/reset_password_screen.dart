@@ -50,11 +50,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: MyTheme.primaryColor,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduationproject/ui/home/search_by_name/SearchByName.dart';
+import 'package:graduationproject/ui/utils/app_theme.dart';
 import 'package:graduationproject/ui/widgets/HomeTabItem.dart';
 
 import 'cubit/HomeStates.dart';
@@ -57,29 +59,46 @@ class _HomeTabState extends State<HomeTab> {
           }
           else if (state is HomeSuccessState) {
             return Scaffold(
+              backgroundColor: MyTheme.whiteColor,
               body: Column(
                 children: [
-                  SizedBox(
-                    height: 60,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height*0.03,),
+                  Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: ElevatedButton(
+                          onPressed: () => showSearch(
+                              context: context, delegate: SearchByName()),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyTheme.primaryColor,
+                            side: const BorderSide(color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.search,color: Colors.white,),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                'Search',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ))),
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
-                        print('sdffffffffffffffe656596esfsdkfmlkfs');
                         return Person(
                           missingPersons: state.allMissingList[index],
-                          imagePath: state.allMissingList[14].images?[0],
+                          imagePath: state.allMissingList[index].images![0],
                         );
                       },
-                      itemCount: 10,
+                      itemCount: state.allMissingList.length,
                     ),
-                   ),
-                  // Person(
-                  //   imagePath: state.allMissingList[10].images?[0],
-                  //   name: state.allMissingList[10].name!,
-                  //   age: state.allMissingList[10].age!,
-                  //   city: 'state',
-                  // ),
+                  ),
+
                 ],
               ),
             );

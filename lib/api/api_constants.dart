@@ -8,4 +8,6 @@ class ApiConstants{
   static const String changePasswordApi ='/user/resetPassword';
   static const String userApi = "user/";
   static const String userPostsApi = "/user/posts";
+  static const String searchAIApi ='https://dallatey.onrender.com/missingPerson/matchOne';
+  static const String createcaseApi ='https://dallatey.onrender.com/missingPerson/';
 }

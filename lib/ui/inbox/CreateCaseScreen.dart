@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseStates.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseViewModel.dart';
 import 'package:graduationproject/ui/inbox/inbox_tab.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/TokenProvider.dart';
 import '../utils/app_theme.dart';
 import '../utils/dialog_utils.dart';
 import '../widgets/custom_text_form_filed.dart';
@@ -22,19 +24,24 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var token = Provider.of<TokenProvider>(context).token;
+    viewModel.getToken(token);
     return BlocListener<CreateCaseViewModel, CreateCaseStates>(
       bloc: viewModel,
       listener: (context, state) {
         if (state is CreateCaseLoadingState) {
+          print('Loading!!!!!!!!!!');
+
           DialogUtils.showLoading(context, 'loading');
         } else if (state is CreateCaseErrorState) {
+          print('CreateCaseErrorState');
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(context, state.errorMessage!,
               posActionName: 'Ok', title: 'Something went wrong !');
           print('${state.errorMessage}');
         } else if (state is CreateCaseSuccessState) {
           DialogUtils.hideLoading(context);
-          DialogUtils.showMessage(context, 'state.response',
+          DialogUtils.showMessage(context, 'Case created successfully',
               posActionName: 'Ok', title: 'Welcome');
           Navigator.of(context).pushNamed(InboxTab.routeName);
         }
@@ -44,9 +51,9 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
           title: Text(
             'Create Case',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
           ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
@@ -115,7 +122,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                               },
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.08,
+                              height: MediaQuery.of(context).size.height * 0.09,
                               child: InkWell(
                                   onTap: () {
                                     setState(() {
@@ -127,16 +134,19 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                              BorderRadius.circular(8),
+                                          BorderRadius.circular(8),
                                           color: MyTheme.primaryColor),
-                                      child: Text(
-                                        '${viewModel.selectedDate?.day}/${viewModel.selectedDate?.month}/${viewModel.selectedDate?.year}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 13,left: 10),
+                                        child: Text(
+                                          '${viewModel.selectedDate?.day}/${viewModel.selectedDate?.month}/${viewModel.selectedDate?.year}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
+                                              .copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   )),
@@ -146,7 +156,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                               child: Container(
                                 padding: EdgeInsets.only(left: 8, right: 8),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(12),
                                   color: MyTheme.primaryColor,
                                 ),
                                 child: DropdownButton(
@@ -158,10 +168,10 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                         .textTheme
                                         .titleMedium!
                                         .copyWith(
-                                          color: MyTheme.whiteColor,
-                                        ),
+                                      color: MyTheme.whiteColor,
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(12),
                                   iconSize: 42,
                                   iconEnabledColor: MyTheme.whiteColor,
                                   underline: SizedBox(),
@@ -172,9 +182,9 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                       .copyWith(color: MyTheme.whiteColor),
                                   items: viewModel.cityList
                                       .map((e) => DropdownMenuItem(
-                                            child: Text('$e'),
-                                            value: e,
-                                          ))
+                                    child: Text('$e'),
+                                    value: e,
+                                  ))
                                       .toList(),
                                   onChanged: (val) {
                                     viewModel.selectedCity = val;
@@ -189,7 +199,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                               child: Container(
                                 padding: EdgeInsets.only(left: 8, right: 8),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(12),
                                   color: MyTheme.primaryColor,
                                 ),
                                 child: DropdownButton(
@@ -201,10 +211,10 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                         .textTheme
                                         .titleMedium!
                                         .copyWith(
-                                          color: MyTheme.whiteColor,
-                                        ),
+                                      color: MyTheme.whiteColor,
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(12),
                                   iconSize: 42,
                                   iconEnabledColor: MyTheme.whiteColor,
                                   underline: SizedBox(),
@@ -215,9 +225,9 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                       .copyWith(color: MyTheme.whiteColor),
                                   items: viewModel.cityList
                                       .map((e) => DropdownMenuItem(
-                                            child: Text('$e'),
-                                            value: e,
-                                          ))
+                                    child: Text('$e'),
+                                    value: e,
+                                  ))
                                       .toList(),
                                   onChanged: (val) {
                                     viewModel.selectedlocationOfLoss = val;
@@ -232,7 +242,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                               child: Container(
                                 padding: EdgeInsets.only(left: 8, right: 8),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(12),
                                   color: MyTheme.primaryColor,
                                 ),
                                 child: DropdownButton(
@@ -244,10 +254,10 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                         .textTheme
                                         .titleMedium!
                                         .copyWith(
-                                          color: MyTheme.whiteColor,
-                                        ),
+                                      color: MyTheme.whiteColor,
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(12),
                                   iconSize: 42,
                                   iconEnabledColor: MyTheme.whiteColor,
                                   underline: SizedBox(),
@@ -258,58 +268,15 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                       .copyWith(color: MyTheme.whiteColor),
                                   items: viewModel.genderList
                                       .map((e) => DropdownMenuItem(
-                                            child: Text('$e'),
-                                            value: e,
-                                          ))
+                                    child: Text('$e'),
+                                    value: e,
+                                  ))
                                       .toList(),
                                   onChanged: (val) {
                                     viewModel.selectedGender = val;
                                     setState(() {});
                                   },
                                   value: viewModel.selectedGender,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Container(
-                                padding: EdgeInsets.only(left: 8, right: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: MyTheme.primaryColor,
-                                ),
-                                child: DropdownButton(
-                                  icon: Icon(Icons.arrow_drop_down),
-                                  isExpanded: true,
-                                  hint: Text(
-                                    'Select your Status',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                          color: MyTheme.whiteColor,
-                                        ),
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                  iconSize: 42,
-                                  iconEnabledColor: MyTheme.whiteColor,
-                                  underline: SizedBox(),
-                                  dropdownColor: MyTheme.primaryColor,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(color: MyTheme.whiteColor),
-                                  items: viewModel.statusList
-                                      .map((e) => DropdownMenuItem(
-                                            child: Text('$e'),
-                                            value: e,
-                                          ))
-                                      .toList(),
-                                  onChanged: (val) {
-                                    viewModel.selectedStatus = val;
-                                    setState(() {});
-                                  },
-                                  value: viewModel.selectedStatus,
                                 ),
                               ),
                             ),
@@ -322,9 +289,9 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: MyTheme.primaryColor,
-                                      padding: EdgeInsets.all(15),
+                                      padding: EdgeInsets.all(12),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(12),
                                       )),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -335,13 +302,13 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                             .textTheme
                                             .titleMedium!
                                             .copyWith(
-                                              color: MyTheme.whiteColor,
-                                            ),
+                                          color: MyTheme.whiteColor,
+                                        ),
                                       ),
                                       SizedBox(
                                         width:
-                                            MediaQuery.of(context).size.width *
-                                                0.01,
+                                        MediaQuery.of(context).size.width *
+                                            0.01,
                                       ),
                                       Image.asset('assets/images/camera.png'),
                                     ],
@@ -357,9 +324,9 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: MyTheme.primaryColor,
-                                    padding: EdgeInsets.all(15),
+                                    padding: EdgeInsets.all(12),
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(12),
                                     )),
                                 child: Text(
                                   "Create",
@@ -367,8 +334,8 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                                       .textTheme
                                       .titleMedium!
                                       .copyWith(
-                                        color: MyTheme.whiteColor,
-                                      ),
+                                    color: MyTheme.whiteColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -398,7 +365,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    await viewModel.pickImageFromCamera();
+                      await viewModel.pickImageFromCamera();
                   },
                   icon: Icon(
                     Icons.camera_alt_outlined,
@@ -412,8 +379,8 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                 Text(
                   'Camera',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: MyTheme.whiteColor,
-                      ),
+                    color: MyTheme.whiteColor,
+                  ),
                 ),
               ],
             ),
@@ -437,8 +404,8 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                 Text(
                   'Gallery',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: MyTheme.whiteColor,
-                      ),
+                    color: MyTheme.whiteColor,
+                  ),
                 ),
               ],
             ),
@@ -447,69 +414,4 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
       ),
     );
   }
-
-// dialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       backgroundColor: MyTheme.primaryColor,
-  //       content: Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //         children: [
-  //           Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               IconButton(
-  //                 onPressed: () async {
-  //                   widget.pickedImage = (await ImageFunction.cameraPicker()) as File?;
-  //                 },
-  //                 icon: Icon(
-  //                   Icons.camera_alt_outlined,
-  //                   size: 40,
-  //                   color: MyTheme.whiteColor,
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 height: MediaQuery.of(context).size.height * 0.001,
-  //               ),
-  //               Text(
-  //                 'Camera',
-  //                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-  //                       color: MyTheme.whiteColor,
-  //                     ),
-  //               ),
-  //             ],
-  //           ),
-  //           Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               IconButton(
-  //                 onPressed: () async {
-  //                   widget.pickedImage = (await ImageFunction.galleryPicker()) as File?;
-  //                   print(widget.pickedImage);
-  //                 },
-  //                 icon: Icon(
-  //                   Icons.image_outlined,
-  //                   size: 40,
-  //                   color: MyTheme.whiteColor,
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 height: MediaQuery.of(context).size.height * 0.001,
-  //               ),
-  //               Text(
-  //                 'Gallery',
-  //                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
-  //                       color: MyTheme.whiteColor,
-  //                     ),
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }

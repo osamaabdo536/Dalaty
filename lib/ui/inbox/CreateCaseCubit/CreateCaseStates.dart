@@ -1,4 +1,4 @@
-
+import 'package:graduationproject/model/response/CreateCaseResponse.dart';
 
 abstract class CreateCaseStates {}
 
@@ -10,4 +10,6 @@ class CreateCaseErrorState extends CreateCaseStates {
 }
 
 class CreateCaseSuccessState extends CreateCaseStates {
+  CreateCaseResponse response;
+  CreateCaseSuccessState({required this.response});
 }

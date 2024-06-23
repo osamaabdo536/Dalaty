@@ -28,12 +28,13 @@ class CustomElevatedButton extends StatelessWidget {
           children: [
             Text(
               title,
+              textAlign: TextAlign.center,
               style:
               Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: MyTheme.whiteColor,
               ),
             ),
-            Image.asset(imagePath),
+            Image.asset(imagePath,color: MyTheme.whiteColor,),
           ],
         ),
       ),

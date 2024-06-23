@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:graduationproject/ui/search/search_by_AI.dart';
-import 'package:graduationproject/ui/search/search_by_filter.dart';
 import 'package:graduationproject/ui/utils/app_theme.dart';
 import 'package:graduationproject/ui/widgets/custom_elevated_button.dart';
 
@@ -21,7 +20,6 @@ class SearchTab extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
           ),
-          CustomElevatedButton(title: 'Search by filter', imagePath: 'assets/images/filter.png',routeName: SearchByFilter.routeName),
           CustomElevatedButton(title: 'Search by AI', imagePath: 'assets/images/AI.png',routeName: SearchByAI.routeName),
         ],
       ),

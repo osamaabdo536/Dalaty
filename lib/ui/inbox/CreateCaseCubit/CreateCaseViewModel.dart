@@ -9,22 +9,17 @@ import '../../utils/image_function.dart';
 
 class CreateCaseViewModel extends Cubit<CreateCaseStates> {
   CreateCaseViewModel() : super(CreateCaseLoadingState());
-
   DateTime? selectedDate = DateTime.now();
-  var fullNameController = TextEditingController();
-  var ageController = TextEditingController();
-  var descriptionController = TextEditingController();
-  var statusController = TextEditingController();
-  var mobileNumberController = TextEditingController();
-
+  var fullNameController = TextEditingController(text: 'Ahmed Ahmed');
+  var ageController = TextEditingController(text: '20');
+  var descriptionController = TextEditingController(text: 'missed missed');
+  var mobileNumberController = TextEditingController(text: '01012345678');
   File? pickedImage;
-  List<File> images = [];
-
   var selectedCity;
   var selectedGender;
-  var selectedStatus;
+  var selectedStatus = 'missing';
   var selectedlocationOfLoss;
-
+  String? token;
   List<String> cityList = [
     "Alexandria",
     "Aswan",
@@ -54,15 +49,15 @@ class CreateCaseViewModel extends Cubit<CreateCaseStates> {
     "South Sinai",
     "Suez",
   ];
-  List<String> genderList = ['Male', 'Female'];
-  List<String> statusList = ['Missing', 'Found'];
+  List<String> genderList = ['male', 'female'];
   var formKey = GlobalKey<FormState>();
 
-  Future<void> CreateCase() async {
+  void CreateCase() async {
     if (formKey.currentState?.validate() == true) {
       try {
         emit(CreateCaseLoadingState());
-        var request = await ApiManager.CreateCase(
+        var response = await ApiManager.CreateCase(
+          pickedImage!,
           fullNameController.text,
           selectedGender,
           int.parse(ageController.text),
@@ -71,13 +66,13 @@ class CreateCaseViewModel extends Cubit<CreateCaseStates> {
           selectedlocationOfLoss,
           selectedDate.toString(),
           descriptionController.text,
-          images,
           selectedStatus,
+          token!,
         );
-        if (request.status != "fail") {
-          emit(CreateCaseSuccessState());
+        if (response?.success == true) {
+          emit(CreateCaseSuccessState(response: response!));
         } else {
-          emit(CreateCaseErrorState(errorMessage: request.message));
+          emit(CreateCaseErrorState(errorMessage: response?.message));
         }
       } catch (e) {
         emit(CreateCaseErrorState(errorMessage: e.toString()));
@@ -93,20 +88,28 @@ class CreateCaseViewModel extends Cubit<CreateCaseStates> {
         lastDate: DateTime.now());
     if (chosenDate != null) {
       selectedDate = chosenDate;
+      print(selectedDate);
     }
   }
 
   Future<void> pickImageFromCamera() async {
     File? image = await ImageFunction.cameraPicker();
     if (image != null) {
-      images.add(image);
+      pickedImage = image;
     }
+    print(pickedImage);
   }
 
   Future<void> pickImageFromGallery() async {
     File? image = await ImageFunction.galleryPicker();
     if (image != null) {
-      images.add(image);
+      pickedImage = image;
     }
+    print(pickedImage);
+  }
+
+  Future<void> getToken(String newtoken) async {
+    token = newtoken;
+    print(token);
   }
 }
