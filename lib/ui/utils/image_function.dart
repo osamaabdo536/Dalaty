@@ -6,14 +6,14 @@ import 'package:permission_handler/permission_handler.dart';
 
 class ImageFunction {
   static Future<File?> cameraPicker() async {
-    // Request camera permission for both Android and iOS
-    PermissionStatus status = await Permission.camera.request();
-
-    if (status.isGranted) {
+    PermissionStatus cameraStatus = await Permission.camera.request();
+    if (cameraStatus.isGranted) {
       var image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image != null) {
         return File(image.path);
       }
+    } else {
+      print('Camera permission denied');
     }
     return null;
   }
@@ -31,7 +31,7 @@ class ImageFunction {
     } else if (Platform.isIOS) {
       status = await Permission.photos.request();
     } else {
-      status = PermissionStatus.denied; // Default for unsupported platforms
+      return null; // Unsupported platform
     }
 
     if (status.isGranted) {
@@ -39,6 +39,8 @@ class ImageFunction {
       if (image != null) {
         return File(image.path);
       }
+    } else {
+      print('Gallery permission denied');
     }
     return null;
   }
