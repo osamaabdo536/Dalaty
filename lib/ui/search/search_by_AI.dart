@@ -56,14 +56,13 @@ class _SearchByAIState extends State<SearchByAI> {
           } else if (state is SearchAIErrorState) {
             print('SearchAIErrorState');
             DialogUtils.hideLoading(context);
-            DialogUtils.showMessage(context, state.errorMessage!,
+            DialogUtils.showMessage(context, "Error: Couldn't find any match in our database",
                 posActionName: 'Ok', title: 'Something went wrong !');
             print('${state.errorMessage}');
           } else if (state is SearchAISuccessState) {
             print('SearchAISuccessState');
-            DialogUtils.hideLoading(context);
             Navigator.of(context).pushNamed(DetailsSearch.routeName,arguments: state.response);
-
+            DialogUtils.hideLoading(context);
           }
         },
         child: Scaffold(
