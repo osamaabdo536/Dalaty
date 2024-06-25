@@ -44,6 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.04,
+            ),
             Image.asset(
               'assets/images/worried.png',
               height: MediaQuery.of(context).size.height*0.4,

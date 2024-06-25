@@ -100,8 +100,9 @@ class _HomeTabState extends State<HomeTab> {
               } else if (state is HomeSuccessState) {
                 return Scaffold(
                   appBar: PreferredSize(
-                    preferredSize: Size.fromHeight(28.0),
+                    preferredSize: Size.fromHeight(32.0),
                     child: AppBar(
+                      centerTitle: false,
                       title: Text(
                         'Dalaty',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(

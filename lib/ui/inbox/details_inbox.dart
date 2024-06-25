@@ -77,6 +77,7 @@ class DetailsInbox extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * 0.01,),
             _buildSectionTitle(context, 'Contact'),
             _buildInfoCard(context, args.mobileNumber ?? "No mobile number available"),
+            SizedBox(height: MediaQuery.of(context).size.height*0.02),
           ],
         ),
       ),
