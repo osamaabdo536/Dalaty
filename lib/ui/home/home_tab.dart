@@ -12,6 +12,8 @@ import 'cubit/HomeViewModel.dart';
 class HomeTab extends StatefulWidget {
   static const String routeName = 'HomeTab';
 
+  const HomeTab({super.key});
+
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
@@ -61,7 +63,7 @@ class _HomeTabState extends State<HomeTab> {
                       _initialization = _initializeViewModel();
                     });
                   },
-                  child: Text('Try Again'),
+                  child: const Text('Try Again'),
                 ),
               ],
             ),
@@ -92,7 +94,7 @@ class _HomeTabState extends State<HomeTab> {
                         onPressed: () {
                           viewModel.getAllMissing();
                         },
-                        child: Text('Try Again'),
+                        child: const Text('Try Again'),
                       ),
                     ],
                   ),
@@ -100,7 +102,7 @@ class _HomeTabState extends State<HomeTab> {
               } else if (state is HomeSuccessState) {
                 return Scaffold(
                   appBar: PreferredSize(
-                    preferredSize: Size.fromHeight(32.0),
+                    preferredSize: const Size.fromHeight(32.0),
                     child: AppBar(
                       centerTitle: false,
                       title: Text(
