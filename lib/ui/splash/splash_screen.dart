@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
     });
     return Scaffold(

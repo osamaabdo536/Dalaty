@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduationproject/home_screen.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseStates.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseViewModel.dart';
-import 'package:graduationproject/ui/inbox/inbox_tab.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/TokenProvider.dart';
@@ -41,9 +41,9 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
           print('${state.errorMessage}');
         } else if (state is CreateCaseSuccessState) {
           DialogUtils.hideLoading(context);
+          Navigator.of(context).pushNamed(HomeScreen.routeName);
           DialogUtils.showMessage(context, 'Case created successfully',
-              posActionName: 'Ok', title: 'Welcome');
-          Navigator.of(context).pushNamed(InboxTab.routeName);
+              posActionName: 'Ok', title: 'Done!');
         }
       },
       child: Scaffold(
@@ -58,11 +58,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            color: MyTheme.primaryColor,
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -365,7 +361,8 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
               children: [
                 IconButton(
                   onPressed: () async {
-                      await viewModel.pickImageFromCamera();
+                    await viewModel.pickImageFromCamera();
+                    Navigator.of(context).pop();
                   },
                   icon: Icon(
                     Icons.camera_alt_outlined,
@@ -391,6 +388,8 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
                 IconButton(
                   onPressed: () async {
                     await viewModel.pickImageFromGallery();
+                    Navigator.of(context).pop();
+
                   },
                   icon: Icon(
                     Icons.image_outlined,

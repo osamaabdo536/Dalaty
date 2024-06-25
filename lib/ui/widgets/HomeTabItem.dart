@@ -118,7 +118,7 @@ class Person extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Text(
-                    'Check the card for more details',
+                    'Tap to know more',
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall

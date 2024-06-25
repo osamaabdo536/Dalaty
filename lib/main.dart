@@ -9,8 +9,10 @@ import 'package:graduationproject/ui/auth/reset_password/reset_password_screen.d
 import 'package:graduationproject/ui/home/details_screen.dart';
 import 'package:graduationproject/ui/home/home_tab.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseScreen.dart';
+import 'package:graduationproject/ui/inbox/details_inbox.dart';
 import 'package:graduationproject/ui/inbox/inbox_tab.dart';
 import 'package:graduationproject/ui/profile/profile_tab.dart';
+import 'package:graduationproject/ui/search/details_seach.dart';
 import 'package:graduationproject/ui/search/search_by_AI.dart';
 import 'package:graduationproject/ui/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             initialRoute: LoginScreen.routeName,
             routes: {
-              SplashScreen.routeName: (context) => SplashScreen(),
+              SplashScreen.routeName: (context) => const SplashScreen(),
               HomeScreen.routeName: (context) => HomeScreen(),
               LoginScreen.routeName: (context) => LoginScreen(),
               RegisterScreen.routeName: (context) => RegisterScreen(),
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
               HomeTab.routeName : (context) =>HomeTab(),
               CreateCaseScreen.routeName : (context) =>CreateCaseScreen(),
               DetailsScreen.routeName : (context) => DetailsScreen(),
+              DetailsInbox.routeName : (context) => DetailsInbox(),
+              DetailsSearch.routeName : (context) => DetailsSearch(),
             },
             theme: MyTheme.appTheme,
           );

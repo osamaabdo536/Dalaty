@@ -20,6 +20,7 @@ class LoginScreenViewModel extends Cubit<LoginScreenStates> {
           );
         if(response.status != "fail"){
           emit(LoginScreenSuccessState(response: response));
+          print(response.token);
           return response.token;
         }else{
           emit(LoginScreenErrorState(errorMessage: response.message));

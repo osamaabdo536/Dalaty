@@ -31,15 +31,13 @@ class _InboxTabState extends State<InboxTab> {
             fontSize: 30,
           ),
         ),
+        automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: MyTheme.whiteColor,
         elevation: 0,
       ),
       body: Column(
         children: [
-          // SizedBox(
-          //   height: MediaQuery.of(context).size.height * 0.14,
-          // ),
           Container(
             color: MyTheme.blueColor,
             child: Column(
@@ -56,8 +54,7 @@ class _InboxTabState extends State<InboxTab> {
                   height: MediaQuery.of(context).size.height*0.01,
                 ),
                 Text(
-                    'Create a case in case you lost a person.\n'
-                        ' Your case will be reviewed and activated as soon as possible',
+                    'If you have lost a loved one, create a case to help spread the word and seek assistance in locating them.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -107,10 +104,13 @@ class _InboxTabState extends State<InboxTab> {
                     );
                   } else if (state is LoggedUserPostsSuccessState) {
                     return Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return UserPost(post: state.LoggedUserPosts![index], imagePath:  state.LoggedUserPosts![index].images![0])   ;                     },
-                        itemCount: state.LoggedUserPosts?.length,
+                      child: Container(
+                        color: MyTheme.whiteColor,
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            return UserPost(post: state.LoggedUserPosts![index], imagePath:  state.LoggedUserPosts![index].images![0])   ;                     },
+                          itemCount: state.LoggedUserPosts?.length,
+                        ),
                       ),
                     );
                   }

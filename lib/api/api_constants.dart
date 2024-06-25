@@ -1,5 +1,5 @@
 class ApiConstants{
-  static const String baseUrl = "dallatey.onrender.com";
+  static const String baseUrl = "accurate-viper-harmless.ngrok-free.app";
   static const String registerApi = "user/signup";
   static const String loginApi = "user/signin";
   static const String otpApi = "user/sendOTP";
@@ -8,6 +8,6 @@ class ApiConstants{
   static const String changePasswordApi ='/user/resetPassword';
   static const String userApi = "user/";
   static const String userPostsApi = "/user/posts";
-  static const String searchAIApi ='https://dallatey.onrender.com/missingPerson/matchOne';
-  static const String createcaseApi ='https://dallatey.onrender.com/missingPerson/';
+  static const String searchAIApi ='https://accurate-viper-harmless.ngrok-free.app/missingPerson/matchOne';
+  static const String createcaseApi ='https://accurate-viper-harmless.ngrok-free.app/missingPerson/';
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduationproject/ui/search/details_seach.dart';
 import 'package:graduationproject/ui/widgets/search_ai_text.dart';
 
 import '../utils/app_theme.dart';
@@ -39,10 +40,8 @@ class _SearchByAIState extends State<SearchByAI> {
           } else if (state is SearchAISuccessState) {
             print('SearchAISuccessState');
             DialogUtils.hideLoading(context);
-            DialogUtils.showMessage(
-                context, state.response?.name ?? 'No Data !!',
-                posActionName: 'Ok', title: 'Welcome');
-            // Navigator.of(context).pushNamed(InboxTab.routeName);
+            Navigator.of(context).pushNamed(DetailsSearch.routeName,arguments: state.response);
+
           }
         },
         child: Scaffold(
@@ -50,17 +49,12 @@ class _SearchByAIState extends State<SearchByAI> {
             title: Text(
               'Search by AI',
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    fontSize: 25,
-                  ),
+                fontSize: 25,
+              ),
             ),
             centerTitle: true,
-            backgroundColor: Colors.transparent,
+            backgroundColor: MyTheme.whiteColor,
             elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              color: MyTheme.primaryColor,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
           ),
           backgroundColor: MyTheme.whiteColor,
           body: Stack(
@@ -124,8 +118,8 @@ class _SearchByAIState extends State<SearchByAI> {
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                    color: MyTheme.whiteColor,
-                                  ),
+                                color: MyTheme.whiteColor,
+                              ),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.01,
@@ -168,6 +162,8 @@ class _SearchByAIState extends State<SearchByAI> {
                     if (image != null) {
                       print('image added successfully');
                       viewModel.SearchByAI(image);
+                      Navigator.of(context).pop();
+
                     }
                   },
                   icon: Icon(
@@ -182,8 +178,8 @@ class _SearchByAIState extends State<SearchByAI> {
                 Text(
                   'Camera',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: MyTheme.whiteColor,
-                      ),
+                    color: MyTheme.whiteColor,
+                  ),
                 ),
               ],
             ),
@@ -197,6 +193,8 @@ class _SearchByAIState extends State<SearchByAI> {
                     if (image != null) {
                       print('image added successfully');
                       viewModel.SearchByAI(image);
+                      Navigator.of(context).pop();
+
                     }
                   },
                   icon: Icon(
@@ -211,8 +209,8 @@ class _SearchByAIState extends State<SearchByAI> {
                 Text(
                   'Gallery',
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: MyTheme.whiteColor,
-                      ),
+                    color: MyTheme.whiteColor,
+                  ),
                 ),
               ],
             ),

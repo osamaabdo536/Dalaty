@@ -33,7 +33,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(context, state.response.message!,
               posActionName: 'Ok', title: 'Welcome');
-          Navigator.of(context).pushNamed(LoginScreen.routeName);
         }
       },
       child: Scaffold(

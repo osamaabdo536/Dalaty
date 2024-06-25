@@ -36,8 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
       } else if (state is LoginScreenSuccessState) {
         Provider.of<TokenProvider>(context, listen: false).setToken(state.response.token);
         DialogUtils.hideLoading(context);
-        DialogUtils.showMessage(context, state.response.message!,
-            posActionName: 'Ok', title: 'Welcome');
         Navigator.of(context).pushNamed(HomeScreen.routeName);
       }
     },

@@ -10,10 +10,10 @@ import '../../utils/image_function.dart';
 class CreateCaseViewModel extends Cubit<CreateCaseStates> {
   CreateCaseViewModel() : super(CreateCaseLoadingState());
   DateTime? selectedDate = DateTime.now();
-  var fullNameController = TextEditingController(text: 'Ahmed Ahmed');
-  var ageController = TextEditingController(text: '20');
-  var descriptionController = TextEditingController(text: 'missed missed');
-  var mobileNumberController = TextEditingController(text: '01012345678');
+  var fullNameController = TextEditingController();
+  var ageController = TextEditingController();
+  var descriptionController = TextEditingController();
+  var mobileNumberController = TextEditingController();
   File? pickedImage;
   var selectedCity;
   var selectedGender;

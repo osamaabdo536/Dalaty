@@ -23,9 +23,6 @@ import '../model/response/Missing.dart';
 import '../model/response/SearchAiResponse.dart';
 
 class ApiManager {
-  /*
-  https://dallatey.onrender.com/user/signup
-   */
   static Future<RegisterResponse> register(
       String name,
       String email,
@@ -133,15 +130,12 @@ class ApiManager {
     }
   }
 
-  static Future<Missing> getAllMissing() async {
+  static Future<Missing> getAllMissing(String token) async {
     Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.allMissingApi);
     try {
       var response = await http.get(
         url,
-        headers: {
-          'token':
-          'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzBmZGRiOTY4ODc1ZTgzOWQ2YzZkMSIsImVtYWlsIjoiemlhZGVzc2FtMTExQGdtYWlsLmNvbSIsImlhdCI6MTcxNDQ4Njc2Nn0.umyk8Nz8Rx30OAxkmMUZtUacBIyt7Nut5wwDiMjgh54',
-        },
+        headers: {'token': token},
       );
 
       var bodyString = response.body;
@@ -176,8 +170,8 @@ class ApiManager {
         url,
         headers: {
           'token':
-          'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzRlMDM0YWVmYWRiYTQyMDQxMDU5ZiIsImVtYWlsIjoiemlhZGVzc2FtMTI4N0BnbWFpbC5jb20iLCJpYXQiOjE3MTgwMzgwMjF9.RGIKnzL6GkaDq04V3yX3GMygcRepW_0ysEtwj4UIQ18',
-          'Content-Type': 'application/json',
+          'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzkzMjQ4YmM3ZDY2Y2M5NWI2ZTU5MiIsImVtYWlsIjoib3NhbWEuYWJkbzQwNDBAZ21haWwuY29tIiwiaWF0IjoxNzE5MjMxNTA5fQ.z4qD71W5zmfLJ50rOQhvsdmgulv-qs81J-SOur5zOcA'
+          , 'Content-Type': 'application/json',
         },
       );
       var json = jsonDecode(response.body);
@@ -193,7 +187,7 @@ class ApiManager {
       var uri = Uri.parse(ApiConstants.searchAIApi);
       var request = http.MultipartRequest('POST', uri);
       request.headers['token'] =
-      'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzRlMDM0YWVmYWRiYTQyMDQxMDU5ZiIsImVtYWlsIjoiemlhZGVzc2FtMTI4N0BnbWFpbC5jb20iLCJpYXQiOjE3MTgwMzgwMjF9.RGIKnzL6GkaDq04V3yX3GMygcRepW_0ysEtwj4UIQ18';
+      'secret_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NzkzMjQ4YmM3ZDY2Y2M5NWI2ZTU5MiIsImVtYWlsIjoib3NhbWEuYWJkbzQwNDBAZ21haWwuY29tIiwiaWF0IjoxNzE5MjMxNTA5fQ.z4qD71W5zmfLJ50rOQhvsdmgulv-qs81J-SOur5zOcA';
 
       // Attach the file to the request
       var stream = http.ByteStream(image.openRead());
@@ -272,7 +266,7 @@ class ApiManager {
         var responseData = await http.Response.fromStream(response);
         var jsonResponse = jsonDecode(responseData.body);
         return CreateCaseResponse.fromJson(jsonResponse);
-      }else {
+      } else {
         // Print response body for debugging
         var responseData = await http.Response.fromStream(response);
         print('Response data: ${responseData.body}');

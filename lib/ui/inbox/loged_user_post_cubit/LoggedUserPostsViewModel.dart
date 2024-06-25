@@ -21,4 +21,9 @@ class LoggedUserPostsViewModel extends Cubit<LoggedUserPostsStates> {
       emit(LoggedUserPostsErrorState(errorMessage: e.toString()));
     }
   }
+
+  Future<void> getToken(String newtoken) async {
+    token = newtoken;
+    print(token);
+  }
 }

@@ -5,12 +5,13 @@ import 'HomeStates.dart';
 
 
 class HomeViewModel extends Cubit<HomeStates> {
+  String? token;
   HomeViewModel() : super(HomeLoadingState());
 
   void getAllMissing() async {
     try {
       emit(HomeLoadingState());
-      var response = await ApiManager.getAllMissing();
+      var response = await ApiManager.getAllMissing(token!);
       if (response.status == 'fail') {
         emit(HomeErrorState(errorMessage: response.message));
       }
@@ -20,5 +21,10 @@ class HomeViewModel extends Cubit<HomeStates> {
     } catch (e) {
       emit(HomeErrorState(errorMessage: e.toString()));
     }
+  }
+
+  Future<void> getToken(String newtoken) async {
+    token = newtoken;
+    print(token);
   }
 }

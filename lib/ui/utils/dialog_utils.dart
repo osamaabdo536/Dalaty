@@ -42,7 +42,9 @@ class DialogUtils{
             Navigator.pop(context);
             posAction?.call();
           },
-          child: Text(posActionName))
+          child: Text(posActionName,style: TextStyle(
+            color: MyTheme.whiteColor
+          ),))
       );
     }
     if(negActionName != null){
