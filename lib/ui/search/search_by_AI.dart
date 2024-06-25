@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduationproject/ui/search/details_seach.dart';
 import 'package:graduationproject/ui/widgets/search_ai_text.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../utils/app_theme.dart';
 import '../utils/dialog_utils.dart';
-import '../utils/image_function.dart';
 import 'cubit/SearchAIStates.dart';
 import 'cubit/SearchAIViewModel.dart';
 
@@ -21,6 +21,26 @@ class SearchByAI extends StatefulWidget {
 class _SearchByAIState extends State<SearchByAI> {
   File? pickedImage;
   SearchAIViewModel viewModel = SearchAIViewModel();
+
+  Future getImage()async{
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(image == null) return;
+
+    final imageTemp = File(image.path);
+    setState(() {
+      this.pickedImage = imageTemp;
+    });
+  }
+
+  Future getImageCamera()async{
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(image == null) return;
+
+    final imageTemp = File(image.path);
+    setState(() {
+      this.pickedImage = imageTemp;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +178,7 @@ class _SearchByAIState extends State<SearchByAI> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    File? image = await ImageFunction.cameraPicker();
+                    File? image = await getImageCamera();
                     if (image != null) {
                       print('image added successfully');
                       viewModel.SearchByAI(image);
@@ -189,7 +209,7 @@ class _SearchByAIState extends State<SearchByAI> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    File? image = await ImageFunction.galleryPicker();
+                    File? image = await getImage();
                     if (image != null) {
                       print('image added successfully');
                       viewModel.SearchByAI(image);
