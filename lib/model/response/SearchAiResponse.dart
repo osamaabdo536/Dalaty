@@ -51,7 +51,8 @@ class SearchResponse {
       this.images, 
       this.city, 
       this.gender, 
-      this.status, 
+      this.status,
+      this.message,
       this.updatedAt, 
      });
 
@@ -66,6 +67,7 @@ class SearchResponse {
     city = json['city'];
     gender = json['gender'];
     status = json['status'];
+    message = json['message'];
     updatedAt = json['updatedAt'];
   }
   String? id;
@@ -77,6 +79,7 @@ class SearchResponse {
   String? city;
   String? gender;
   String? status;
+  String? message;
   String? updatedAt;
 
   Map<String, dynamic> toJson() {
@@ -92,6 +95,7 @@ class SearchResponse {
     map['gender'] = gender;
     map['status'] = status;
     map['updatedAt'] = updatedAt;
+    map['message'] = message;
     return map;
   }
 

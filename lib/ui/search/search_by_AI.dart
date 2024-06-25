@@ -61,8 +61,11 @@ class _SearchByAIState extends State<SearchByAI> {
             print('${state.errorMessage}');
           } else if (state is SearchAISuccessState) {
             print('SearchAISuccessState');
-            Navigator.of(context).pushNamed(DetailsSearch.routeName,arguments: state.response);
             DialogUtils.hideLoading(context);
+            Navigator.of(context).pushNamed(DetailsSearch.routeName,arguments: state.response);
+            DialogUtils.showMessage(context, state.response!.message!,
+                posActionName: 'Ok', title: 'Success');
+            print('${state.response!.message!}');
           }
         },
         child: Scaffold(
