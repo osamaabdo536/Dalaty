@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduationproject/home_screen.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseStates.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseViewModel.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/TokenProvider.dart';
@@ -20,7 +21,34 @@ class CreateCaseScreen extends StatefulWidget {
 }
 
 class _CreateCaseScreenState extends State<CreateCaseScreen> {
+  File? pickedImage;
   CreateCaseViewModel viewModel = CreateCaseViewModel();
+
+  Future getImage()async{
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(image == null) return;
+
+    final imageTemp = File(image.path);
+    setState(() {
+      this.pickedImage = imageTemp;
+      print('image added successfully');
+      viewModel.pickImageFromGallery();
+      Navigator.of(context).pop();
+    });
+  }
+
+  Future getImageCamera()async{
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if(image == null) return;
+
+    final imageTemp = File(image.path);
+    setState(() {
+      this.pickedImage = imageTemp;
+      print('image added successfully');
+      viewModel.pickImageFromCamera();
+      Navigator.of(context).pop();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -361,7 +389,7 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    await viewModel.pickImageFromCamera();
+                    viewModel.getImageCamera();
                     Navigator.of(context).pop();
                   },
                   icon: Icon(
@@ -387,9 +415,8 @@ class _CreateCaseScreenState extends State<CreateCaseScreen> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    await viewModel.pickImageFromGallery();
+                    viewModel.getImage();
                     Navigator.of(context).pop();
-
                   },
                   icon: Icon(
                     Icons.image_outlined,

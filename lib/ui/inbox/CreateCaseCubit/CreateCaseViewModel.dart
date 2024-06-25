@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduationproject/ui/inbox/CreateCaseCubit/CreateCaseStates.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../api/api_manager.dart';
 import '../../utils/image_function.dart';
@@ -106,6 +107,22 @@ class CreateCaseViewModel extends Cubit<CreateCaseStates> {
       pickedImage = image;
     }
     print(pickedImage);
+  }
+
+  Future getImageCamera()async{
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if(image == null) return;
+    final imageTemp = File(image.path);
+    this.pickedImage = imageTemp;
+    print('image added successfully');
+  }
+
+  Future getImage()async{
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if(image == null) return;
+    final imageTemp = File(image.path);
+    this.pickedImage = imageTemp;
+    print('image added successfully');
   }
 
   Future<void> getToken(String newtoken) async {

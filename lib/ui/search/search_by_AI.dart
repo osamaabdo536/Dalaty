@@ -27,19 +27,21 @@ class _SearchByAIState extends State<SearchByAI> {
     if(image == null) return;
 
     final imageTemp = File(image.path);
-    setState(() {
-      this.pickedImage = imageTemp;
-    });
+    this.pickedImage = imageTemp;
+    print('image added successfully');
+    viewModel.SearchByAI(pickedImage);
+    Navigator.of(context).pop();
   }
 
   Future getImageCamera()async{
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
     if(image == null) return;
 
     final imageTemp = File(image.path);
-    setState(() {
-      this.pickedImage = imageTemp;
-    });
+    this.pickedImage = imageTemp;
+    print('image added successfully');
+    viewModel.SearchByAI(pickedImage);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -178,13 +180,7 @@ class _SearchByAIState extends State<SearchByAI> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    File? image = await getImageCamera();
-                    if (image != null) {
-                      print('image added successfully');
-                      viewModel.SearchByAI(image);
-                      Navigator.of(context).pop();
-
-                    }
+                    getImageCamera();
                   },
                   icon: Icon(
                     Icons.camera_alt_outlined,
@@ -209,13 +205,7 @@ class _SearchByAIState extends State<SearchByAI> {
               children: [
                 IconButton(
                   onPressed: () async {
-                    File? image = await getImage();
-                    if (image != null) {
-                      print('image added successfully');
-                      viewModel.SearchByAI(image);
-                      Navigator.of(context).pop();
-
-                    }
+                    getImage();
                   },
                   icon: Icon(
                     Icons.image_outlined,
